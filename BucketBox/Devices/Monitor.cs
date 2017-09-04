@@ -55,6 +55,14 @@ namespace BucketBox.Devices
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorBrightness")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetMonitorBrightness(IntPtr handle, uint newBrightness);
+        [DllImport("dxva2.dll", EntryPoint = "GetMonitorContrast")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetMonitorContrast(IntPtr handle, ref uint minimumContrast, ref uint currentContrast, ref uint maxContast);
+
+
+        [DllImport("dxva2.dll", EntryPoint = "SetMonitorContrast")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetMonitorContrast(IntPtr handle, uint newContruat);
 
         private uint _physicalMonitorsCount = 0;
         private PHYSICAL_MONITOR[] _physicalMonitorArray;
@@ -84,13 +92,23 @@ namespace BucketBox.Devices
             {
                 throw new Exception("Cannot get monitor brightness!");
             }
+            if (!GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
+            {
+                throw new Exception("Cannot get monitor contrast!");
+            }
         }
 
         public void SetBrightness(int newValue)
         {
             newValue = Math.Min(newValue, Math.Max(0, newValue));
             _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
-            SetMonitorBrightness(_firstMonitorHandle, _currentValue);
+            var ap=SetMonitorBrightness(_firstMonitorHandle, _currentValue);
+        }
+        public void SetContrast(int newValue)
+        {
+            newValue = Math.Min(newValue, Math.Max(0, newValue));
+            _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
+            SetMonitorContrast(_firstMonitorHandle, _currentValue);
         }
 
         public void Dispose()
