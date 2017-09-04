@@ -26,7 +26,7 @@ namespace BucketBox.Text
 
         }
 
-        public string toString(String hexInput, System.Text.Encoding encoding)
+        public string toString(String hexInput, Encoding encoding)
         {
             int numberChars = hexInput.Length;
             byte[] bytes = new byte[numberChars / 2];

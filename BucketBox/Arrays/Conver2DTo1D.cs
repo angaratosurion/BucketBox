@@ -17,7 +17,7 @@ namespace BucketBox.Arrays
                 if ((arg != null) && (lines > 0)&&(col > 0))
                 {
                     ap= new Byte[lines*col];
-                    System.Buffer.BlockCopy(arg, 0, ap, 0,(int) (lines * col));
+                   Buffer.BlockCopy(arg, 0, ap, 0,(int) (lines * col));
                 
                 }
 
@@ -44,7 +44,7 @@ namespace BucketBox.Arrays
                 if ((arg != null) && (lines > 0) && (col > 0))
                 {
                     ap = new bool[lines * col];
-                    System.Buffer.BlockCopy(arg, 0, ap, 0, (int)(lines * col));
+                  Buffer.BlockCopy(arg, 0, ap, 0, (int)(lines * col));
 
                 }
 
