@@ -26,7 +26,7 @@ namespace BucketBox.Devices
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
         public UInt16[] Blue;
     }
-    public  class Monitor : IDisposable
+    public class Monitor : IDisposable
     {
         [DllImport("user32.dll")]
         public static extern IntPtr GetDC(IntPtr hWnd);
@@ -90,7 +90,11 @@ namespace BucketBox.Devices
 
             if (!GetMonitorBrightness(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
             {
-                throw new Exception("Cannot get monitor brightness!");
+
+                if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                {
+                    throw new Exception("Cannot get monitor brightness!");
+                }
             }
             if (!GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
             {
@@ -100,9 +104,17 @@ namespace BucketBox.Devices
 
         public void SetBrightness(int newValue)
         {
-            newValue = Math.Min(newValue, Math.Max(0, newValue));
-            _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
-            var ap=SetMonitorBrightness(_firstMonitorHandle, _currentValue);
+            if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+            {
+                newValue = Math.Min(newValue, Math.Max(0, newValue));
+                _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
+                var ap = SetMonitorBrightness(_firstMonitorHandle, _currentValue);
+            }
+            else
+            {
+                byte [] bLevels = GetWMIBrightnessLevels();
+                SetWMIBrightness(bLevels[newValue]);
+            }
         }
         public void SetContrast(int newValue)
         {
@@ -129,7 +141,7 @@ namespace BucketBox.Devices
         }
 
 
-        public  void SetGamma(int gamma)
+        public void SetGamma(int gamma)
         {
             if (gamma <= 256 && gamma >= 1)
             {
@@ -148,5 +160,113 @@ namespace BucketBox.Devices
                 SetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
             }
         }
+        #region WMIforLpatops
+
+        private static  Boolean check_WMIbrightness(byte newval)
+        {
+            Boolean ap = false;
+            int iBrightness = GetWMIBrightness(); //get the actual value of brightness
+            byte[] bLevels = GetWMIBrightnessLevels();
+            int i = Array.IndexOf(bLevels, (byte)iBrightness);
+            int j= 0;
+            
+
+            return ap;
+
+          
+            
+        }
+
+
+        public static int GetWMIBrightness()
+        {
+            //define scope (namespace)
+            System.Management.ManagementScope s = new System.Management.ManagementScope("root\\WMI");
+
+            //define query
+            System.Management.SelectQuery q = new System.Management.SelectQuery("WmiMonitorBrightness");
+
+            //output current brightness
+            System.Management.ManagementObjectSearcher mos = new System.Management.ManagementObjectSearcher(s, q);
+
+            System.Management.ManagementObjectCollection moc = mos.Get();
+
+            //store result
+            byte curBrightness = 0;
+            foreach (System.Management.ManagementObject o in moc)
+            {
+                curBrightness = (byte)o.GetPropertyValue("CurrentBrightness");
+                break; //only work on the first object
+            }
+
+            moc.Dispose();
+            mos.Dispose();
+
+            return (int)curBrightness;
+        }
+
+        //array of valid brightness values in percent
+        public static byte[] GetWMIBrightnessLevels()
+        {
+            //define scope (namespace)
+            System.Management.ManagementScope s = new System.Management.ManagementScope("root\\WMI");
+
+            //define query
+            System.Management.SelectQuery q = new System.Management.SelectQuery("WmiMonitorBrightness");
+
+            //output current brightness
+            System.Management.ManagementObjectSearcher mos = new System.Management.ManagementObjectSearcher(s, q);
+            byte[] BrightnessLevels = new byte[0];
+
+            try
+            {
+                System.Management.ManagementObjectCollection moc = mos.Get();
+
+                //store result
+
+
+                foreach (System.Management.ManagementObject o in moc)
+                {
+                    BrightnessLevels = (byte[])o.GetPropertyValue("Level");
+                    break; //only work on the first object
+                }
+
+                moc.Dispose();
+                mos.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+
+            return BrightnessLevels;
+        }
+
+        public static   void SetWMIBrightness(byte targetBrightness)
+        {
+            //define scope (namespace)
+            System.Management.ManagementScope s = new System.Management.ManagementScope("root\\WMI");
+
+            //define query
+            System.Management.SelectQuery q = new System.Management.SelectQuery("WmiMonitorBrightnessMethods");
+
+            //output current brightness
+            System.Management.ManagementObjectSearcher mos = new System.Management.ManagementObjectSearcher(s, q);
+
+            System.Management.ManagementObjectCollection moc = mos.Get();
+
+            foreach (System.Management.ManagementObject o in moc)
+            {
+                o.InvokeMethod("WmiSetBrightness", new Object[] { UInt32.MaxValue, targetBrightness }); //note the reversed order - won't work otherwise!
+                break; //only work on the first object
+            }
+
+            moc.Dispose();
+            mos.Dispose();
+        }
+#endregion
     }
-}
+    }
+
+

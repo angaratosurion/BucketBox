@@ -6,6 +6,7 @@ using BucketBox.Binary;
 using System.IO;
 using System.Windows.Forms;
 using BucketBox.Cryptography;
+using BucketBox.Devices;
 
 namespace buckettest
 {
@@ -60,7 +61,13 @@ namespace buckettest
             tf4.Flush();
             tf4.Close();
 
-            
+            Console.WriteLine(Machine.GetCurrentChassisType().ToString());
+            //Monitor mon = new Monitor();
+            byte[] blevels = Monitor.GetWMIBrightnessLevels();
+            for(int i=0; i<blevels.Length;i++)
+            {
+                Console.WriteLine( blevels[i].ToString());
+            }
 
             
             Console.ReadLine();

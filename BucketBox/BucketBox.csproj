@@ -34,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +50,7 @@
     <Compile Include="base.cs" />
     <Compile Include="Binary\Bytes.cs" />
     <Compile Include="Cryptography\BlackBoxCrypt.cs" />
+    <Compile Include="Devices\Machine.cs" />
     <Compile Include="IO\FileStructure.cs" />
     <Compile Include="IO\WebToFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
