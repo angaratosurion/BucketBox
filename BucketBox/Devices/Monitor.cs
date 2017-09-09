@@ -67,7 +67,8 @@ namespace BucketBox.Devices
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorContrast")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetMonitorContrast(IntPtr handle, uint newContruat);
-
+        [DllImport("gdi32.dll")]
+        public static extern int GetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
         private uint _physicalMonitorsCount = 0;
         private PHYSICAL_MONITOR[] _physicalMonitorArray;
 
@@ -162,6 +163,48 @@ namespace BucketBox.Devices
             catch (Exception ex)
             {
                 Base.exceptionHandle(ex);
+
+            }
+        }
+        public int GetBrightness()
+        {
+            try
+            { int ap = -1;
+                if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                {
+                   
+                     GetMonitorBrightness(  _firstMonitorHandle,ref _minValue, ref _currentValue,ref _maxValue);
+                    ap =(int) _currentValue;
+                }
+                else
+                {
+                    
+                    ap=GetWMIBrightness();
+                }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                Base.exceptionHandle(ex);
+                return -1;
+
+            }
+        }
+
+        public int  GetContrast()
+        {
+            try
+            {
+                int ap = -1;
+              
+                GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue);
+                ap = (int)_currentValue;
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                Base.exceptionHandle(ex);
+                return -1;
 
             }
         }
