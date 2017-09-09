@@ -62,8 +62,10 @@
     <Compile Include="Devices\Monitor.cs" />
     <Compile Include="Text\Converter.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="refs\" />
+    <Content Include="refs\CoreAudioApi.dll" />
+    <Content Include="refs\CoreAudioApi.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
