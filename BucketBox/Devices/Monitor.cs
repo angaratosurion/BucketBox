@@ -80,30 +80,34 @@ namespace BucketBox.Devices
         public Monitor(IntPtr windowHandle)
         {
             uint dwFlags = 0u;
-            IntPtr ptr = MonitorFromWindow(windowHandle, dwFlags);
-            if (!GetNumberOfPhysicalMonitorsFromHMONITOR(ptr, ref _physicalMonitorsCount))
-            {
-                throw new Exception("Cannot get monitor count!");
-            }
-            _physicalMonitorArray = new PHYSICAL_MONITOR[_physicalMonitorsCount];
 
-            if (!GetPhysicalMonitorsFromHMONITOR(ptr, _physicalMonitorsCount, _physicalMonitorArray))
+            if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
             {
-                throw new Exception("Cannot get phisical monitor handle!");
-            }
-            _firstMonitorHandle = _physicalMonitorArray[0].hPhysicalMonitor;
-
-            if (!GetMonitorBrightness(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
-            {
-
-                if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                IntPtr ptr = MonitorFromWindow(windowHandle, dwFlags);
+                if (!GetNumberOfPhysicalMonitorsFromHMONITOR(ptr, ref _physicalMonitorsCount))
                 {
-                    throw new Exception("Cannot get monitor brightness!");
+                    throw new Exception("Cannot get monitor count!");
                 }
-            }
-            if (!GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
-            {
-                throw new Exception("Cannot get monitor contrast!");
+                _physicalMonitorArray = new PHYSICAL_MONITOR[_physicalMonitorsCount];
+
+                if (!GetPhysicalMonitorsFromHMONITOR(ptr, _physicalMonitorsCount, _physicalMonitorArray))
+                {
+                    throw new Exception("Cannot get phisical monitor handle!");
+                }
+                _firstMonitorHandle = _physicalMonitorArray[0].hPhysicalMonitor;
+
+                if (!GetMonitorBrightness(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
+                {
+
+                    if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                    {
+                        throw new Exception("Cannot get monitor brightness!");
+                    }
+                }
+                if (!GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
+                {
+                    throw new Exception("Cannot get monitor contrast!");
+                }
             }
         }
         /// <summary>
@@ -196,9 +200,17 @@ namespace BucketBox.Devices
             try
             {
                 int ap = -1;
-              
-                GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue);
-                ap = (int)_currentValue;
+                if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                {
+                    GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue);
+                    ap = (int)_currentValue;
+                    
+                }
+                else
+                {
+
+                   
+                }
                 return ap;
             }
             catch (Exception ex)
@@ -212,9 +224,17 @@ namespace BucketBox.Devices
         {
             try
             {
-                newValue = Math.Min(newValue, Math.Max(0, newValue));
-                _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
-                SetMonitorContrast(_firstMonitorHandle, _currentValue);
+                if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                {
+                    newValue = Math.Min(newValue, Math.Max(0, newValue));
+                    _currentValue = (_maxValue - _minValue) * (uint)newValue / 100u + _minValue;
+                    SetMonitorContrast(_firstMonitorHandle, _currentValue);
+                }
+                else
+                {
+
+
+                }
             }
             catch (Exception ex)
             {
