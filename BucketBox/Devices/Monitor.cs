@@ -266,21 +266,29 @@ namespace BucketBox.Devices
 
             try
             {
-                if (gamma <= 256 && gamma >= 1)
+                
+                    if (gamma <= 256 && gamma >= 1)
                 {
-                    RAMP ramp = new RAMP();
-                    ramp.Red = new ushort[256];
-                    ramp.Green = new ushort[256];
-                    ramp.Blue = new ushort[256];
-                    for (int i = 1; i < 256; i++)
-                    {
-                        int iArrayValue = i * (gamma + 128);
+                        if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
+                        {
+                            RAMP ramp = new RAMP();
+                            ramp.Red = new ushort[256];
+                            ramp.Green = new ushort[256];
+                            ramp.Blue = new ushort[256];
+                            for (int i = 1; i < 256; i++)
+                            {
+                                int iArrayValue = i * (gamma + 128);
 
-                        if (iArrayValue > 65535)
-                            iArrayValue = 65535;
-                        ramp.Red[i] = ramp.Blue[i] = ramp.Green[i] = (ushort)iArrayValue;
+                                if (iArrayValue > 65535)
+                                    iArrayValue = 65535;
+                                ramp.Red[i] = ramp.Blue[i] = ramp.Green[i] = (ushort)iArrayValue;
+                            }
+                            SetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
+                        }
+                        else
+                    {
+
                     }
-                    SetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
                 }
             }
             catch (Exception ex)
