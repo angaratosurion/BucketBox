@@ -58,7 +58,8 @@
     <Compile Include="Devices\Machine.cs" />
     <Compile Include="Devices\Performance.cs" />
     <Compile Include="IO\FileStructure.cs" />
-    <Compile Include="IO\WebToFileSystem.cs" />
+    <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="OS\Wallpaper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Devices\Monitor.cs" />
     <Compile Include="Text\Converter.cs" />

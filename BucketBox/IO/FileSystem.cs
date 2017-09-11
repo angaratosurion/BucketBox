@@ -157,5 +157,27 @@ namespace BucketBox.IO
 
             }
         }
+        public Boolean FileExists(string path)
+        {
+
+            try
+            {
+                Boolean ap = false;
+                if (path != null)
+                {
+                    ap = File.Exists(path);
+
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                //Base.ErrorHandling(ex);
+                return false;
+
+            }
+        }
     }
 }
