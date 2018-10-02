@@ -38,6 +38,8 @@ namespace BucketBox.Devices
         public static extern bool LockWorkStation();
         [DllImport("user32.dll")]
         public static extern IntPtr GetDC(IntPtr hWnd);
+        [DllImport("kernel32.dll")]
+       public  static extern uint GetLastError();
 
         [DllImport("gdi32.dll")]
         public static extern bool SetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
@@ -102,7 +104,7 @@ namespace BucketBox.Devices
 
                 if (!GetPhysicalMonitorsFromHMONITOR(ptr, _physicalMonitorsCount, _physicalMonitorArray))
                 {
-                    throw new Exception("Cannot get phisical monitor handle!");
+                    throw new Exception("Cannot get phisical monitor handle! " +Convert.ToString(GetLastError()));
                 }
                 _firstMonitorHandle = _physicalMonitorArray[0].hPhysicalMonitor;
                 if(_firstMonitorHandle==IntPtr.Zero)
@@ -115,7 +117,7 @@ namespace BucketBox.Devices
 
                     if (Machine.GetCurrentChassisType() == ChassisTypes.Desktop)
                     {
-                        throw new Exception("Cannot get monitor brightness!");
+                        throw new Exception("Cannot get monitor brightness!" + Convert.ToString(GetLastError()));
                     }
                 }
                 if (!GetMonitorContrast(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
