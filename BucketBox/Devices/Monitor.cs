@@ -7,6 +7,10 @@ using System.Text;
 
 namespace BucketBox.Devices
 {
+    public struct IDirect3DDevice9
+    {
+    }
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     public struct PHYSICAL_MONITOR
     {
@@ -47,10 +51,16 @@ namespace BucketBox.Devices
         [DllImport("dxva2.dll", EntryPoint = "GetNumberOfPhysicalMonitorsFromHMONITOR")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetNumberOfPhysicalMonitorsFromHMONITOR(IntPtr hMonitor, ref uint pdwNumberOfPhysicalMonitors);
+        [DllImport("dxva2.dll", EntryPoint = "GetPhysicalMonitorsFromIDirect3DDevice9")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetPhysicalMonitorsFromIDirect3DDevice9(IDirect3DDevice9 pDirect3DDevice9, uint dwPhysicalMonitorArraySize,
+            ref PHYSICAL_MONITOR pPhysicalMonitorArray);
 
         [DllImport("dxva2.dll", EntryPoint = "GetPhysicalMonitorsFromHMONITOR")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetPhysicalMonitorsFromHMONITOR(IntPtr hMonitor, uint dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
+
+        
 
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorBrightness")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -86,7 +96,7 @@ namespace BucketBox.Devices
                 IntPtr ptr = MonitorFromWindow(windowHandle, dwFlags);
                 if (!GetNumberOfPhysicalMonitorsFromHMONITOR(ptr, ref _physicalMonitorsCount))
                 {
-                    throw new Exception("Cannot get monitor count!");
+                    throw new Exception("Cannot get monitor count!" );
                 }
                 _physicalMonitorArray = new PHYSICAL_MONITOR[_physicalMonitorsCount];
 
@@ -95,6 +105,10 @@ namespace BucketBox.Devices
                     throw new Exception("Cannot get phisical monitor handle!");
                 }
                 _firstMonitorHandle = _physicalMonitorArray[0].hPhysicalMonitor;
+                if(_firstMonitorHandle==IntPtr.Zero)
+                {
+                  //  GetPhysicalMonitorsFromIDirect3DDevice9(ptr, _physicalMonitorsCount,  _physicalMonitorArray);
+                }
 
                 if (!GetMonitorBrightness(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))
                 {
