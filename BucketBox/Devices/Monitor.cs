@@ -108,7 +108,7 @@ namespace BucketBox.Devices
                 {
                     throw new Exception("Cannot get monitor contrast!");
                 }
-            }
+            } 
         }
         /// <summary>
         /// Turns off the pc monitor
