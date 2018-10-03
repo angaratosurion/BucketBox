@@ -109,7 +109,8 @@ namespace BucketBox.Devices
                 _firstMonitorHandle = _physicalMonitorArray[0].hPhysicalMonitor;
                 if(_firstMonitorHandle==IntPtr.Zero)
                 {
-                  //  GetPhysicalMonitorsFromIDirect3DDevice9(ptr, _physicalMonitorsCount,  _physicalMonitorArray);
+                    //  GetPhysicalMonitorsFromIDirect3DDevice9(ptr, _physicalMonitorsCount,  _physicalMonitorArray);
+                   
                 }
 
                 if (!GetMonitorBrightness(_firstMonitorHandle, ref _minValue, ref _currentValue, ref _maxValue))

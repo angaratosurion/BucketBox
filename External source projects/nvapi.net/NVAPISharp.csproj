@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{06237435-A1C6-4286-82C0-F9584921F59D}</ProjectGuid>
+    <ProjectGuid>{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BucketBox</RootNamespace>
-    <AssemblyName>BucketBox</AssemblyName>
+    <RootNamespace>Nvidia</RootNamespace>
+    <AssemblyName>nvapi.net</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,17 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoreAudioApi, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\refs\CoreAudioApi.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Management.Instrumentation" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,28 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arrays\Conver2DTo1D.cs" />
-    <Compile Include="Arrays\Convert1DTo2D.cs" />
-    <Compile Include="base.cs" />
-    <Compile Include="Binary\Bytes.cs" />
-    <Compile Include="Cryptography\BlackBoxCrypt.cs" />
-    <Compile Include="Devices\AudioDeviceManager.cs" />
-    <Compile Include="Devices\GPU\NVIDIA\NVIDIAColorController.cs" />
-    <Compile Include="Devices\Machine.cs" />
-    <Compile Include="Devices\Performance.cs" />
-    <Compile Include="IO\FileStructure.cs" />
-    <Compile Include="IO\FileSystem.cs" />
-    <Compile Include="OS\Wallpaper.cs" />
+    <Compile Include="Data\BoardInfo.cs" />
+    <Compile Include="Data\DisplayDriverMemoryInfo.cs" />
+    <Compile Include="Data\Status.cs" />
+    <Compile Include="Display.cs" />
+    <Compile Include="Exceptions\NvidiaApiException.cs" />
+    <Compile Include="Interop\NVAPI\Common.cs" />
+    <Compile Include="Interop\NVAPI\Display.cs" />
+    <Compile Include="Interop\NVAPI\Driver.cs" />
+    <Compile Include="Interop\NVAPI\GPU.cs" />
+    <Compile Include="Interop\PInvokeDelegateFactory.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Devices\Monitor.cs" />
-    <Compile Include="Text\Converter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\External source projects\nvapi.net\NVAPISharp.csproj">
-      <Project>{8e3423a5-88a5-4aa8-b9c6-f90771063d9d}</Project>
-      <Name>NVAPISharp</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

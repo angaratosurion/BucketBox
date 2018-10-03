@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BucketBox.Devices.GPU.NVIDIA
 {
-   public class NVIDIAController
+   public class NVIDIAColorController
     {
     }
 }

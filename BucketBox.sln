@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "buckettest", "buckettest\bu
 		{06237435-A1C6-4286-82C0-F9584921F59D} = {06237435-A1C6-4286-82C0-F9584921F59D}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NVAPISharp", "External source projects\nvapi.net\NVAPISharp.csproj", "{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{475427A4-AE05-4F96-8FCC-61671A78D9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{475427A4-AE05-4F96-8FCC-61671A78D9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{475427A4-AE05-4F96-8FCC-61671A78D9B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3423A5-88A5-4AA8-B9C6-F90771063D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
