@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Data\BoardInfo.cs" />
     <Compile Include="Data\DisplayDriverMemoryInfo.cs" />
     <Compile Include="Data\Status.cs" />
@@ -50,9 +51,10 @@
     <Compile Include="Interop\NVAPI\GPU.cs" />
     <Compile Include="Interop\PInvokeDelegateFactory.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
