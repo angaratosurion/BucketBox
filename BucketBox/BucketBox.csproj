@@ -58,6 +58,7 @@
     <Compile Include="Devices\GPU\NVIDIA\NVIDIAColorController.cs" />
     <Compile Include="Devices\Machine.cs" />
     <Compile Include="Devices\Performance.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IO\FileStructure.cs" />
     <Compile Include="IO\FileSystem.cs" />
     <Compile Include="OS\Wallpaper.cs" />
