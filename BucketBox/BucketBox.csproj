@@ -55,6 +55,7 @@
     <Compile Include="Binary\Bytes.cs" />
     <Compile Include="Cryptography\BlackBoxCrypt.cs" />
     <Compile Include="Devices\AudioDeviceManager.cs" />
+    <Compile Include="Devices\DisableHardware.cs" />
     <Compile Include="Devices\GPU\NVIDIA\NVIDIAColorController.cs" />
     <Compile Include="Devices\Machine.cs" />
     <Compile Include="Devices\Performance.cs" />
